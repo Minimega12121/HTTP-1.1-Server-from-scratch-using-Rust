@@ -6,18 +6,22 @@ use std::error::Error;
 use std::fmt::{Result as FmtResult,Formatter,Display,Debug};
 use std::str;
 use std::str::Utf8Error;
+use super::{QueryString,QueryStringValue};
 //enum is a special type with finite set of values 
-pub struct Request {
-    path : String,
-    query_string: Option<String>,
+
+#[derive(Debug)]
+pub struct Request<'buf>{
+    path : &'buf str,
+    query_string: Option<QueryString<'buf>>,
     method: Method,
 }
 
-impl TryFrom<&[u8]> for Request {
+impl<'buf> TryFrom<&'buf [u8]> for Request<'buf>{
     type Error = ParseError;
 
     // GET /search?name=abc&sort=1 HTTP/1.1\r\n...HEADERS...
-    fn try_from(buf: &[u8]) -> Result<Self, Self::Error> {
+    fn try_from(buf: &'buf [u8]) -> Result<Request<'buf>, Self::Error> {
+
         // match str::from_utf8(buf).or(Err(ParseError::InvalidEncoding)) {
         //     Ok(request) => {},
         //     Err(e) => return Err(e),
@@ -54,11 +58,14 @@ impl TryFrom<&[u8]> for Request {
         
         //same as above, used when we only care about one case and dont care about other
         if let Some(i) = path.find('?') {
-            query_string = Some(&path[i+1..]);
+            query_string = Some(QueryString::from(&path[i+1..]));
             path = &path[..i];
         }
-
-        unimplemented!()
+        Ok(Self{
+            path,
+            query_string,
+            method,
+        }) 
     }
 }
 fn get_next_word(request: &str) -> Option<(&str, &str)>{

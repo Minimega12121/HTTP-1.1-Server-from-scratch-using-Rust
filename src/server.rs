@@ -31,7 +31,9 @@ impl Server {
                             println!("Recieved a request: {}", String::from_utf8_lossy(&buffer));
                             // try from is used for converstion of one type to another
                             match Request::try_from(&buffer[..]) {
-                                Ok(request) => {},
+                                Ok(request) => {
+                                    dbg!(request);
+                                },
                                 Err(e) => {
                                     eprintln!("Failed to parse a request: {}", e);
                                 }
