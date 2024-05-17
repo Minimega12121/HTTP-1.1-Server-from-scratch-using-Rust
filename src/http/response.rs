@@ -17,7 +17,6 @@ impl Response {
             body,
         }
     }
-
     //stream: &mut dyn Write => dynamic dispatch for TcpStream using Write, concrete implementation of function will be done during run-time
     //below is static dispatch to reduce runtime overhead 
     //static increases the memory usage while dynamic increases the runtime overhead
