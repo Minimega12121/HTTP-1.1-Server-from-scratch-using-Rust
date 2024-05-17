@@ -30,12 +30,13 @@ Generates a response structure using a new() constructure that takes in the stat
     body: Option<String>,
 }
 
-### Making a website handler
-This is responsible for serving different files from the /public directory depending on the type of request made by the client.
+### Making a Website Handler
+
+This is responsible for serving different files from the `/public` directory depending on the type of request made by the client.
 
 For GET requests:
 
-Serves index.html for the root path /.
-Serves hello.html for the path /hello.
-Serves other files if they exist in the public directory.
-Returns NotFound if the file doesn't exist.
+- Serves `index.html` for the root path `/`.
+- Serves `hello.html` for the path `/hello`.
+- Serves other files if they exist in the public directory.
+- Returns `NotFound` if the file doesn't exist.
