@@ -17,7 +17,7 @@ Parsing through the following request:
 
 <img src="https://github.com/Minimega12121/HTTP-1.1-Server-from-scratch-using-Rust/blob/main/ss/get_req.png">
 
-The underlying request logic parses the request with the help of the following request struct and its implementation for ParseError and generates the `Response struct` as follows:
+The underlying request logic parses the request with the help of the above Request struct and in case of any problem with parsing generates `ParseError` accordingly.
 
 <img src="https://github.com/Minimega12121/HTTP-1.1-Server-from-scratch-using-Rust/blob/main/ss/parsedata.png">
 
