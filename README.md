@@ -35,7 +35,7 @@ pub struct Response {
 ### Making a Website Handler
 
 This is responsible for serving different files from the `/public` directory depending on the type of request made by the client.
-
+It also checks for `Directory Traversal Attacks` and prevents it by logging the attempt and returning `Page Not Found: 404`
 For GET requests:
 
 - Serves `index.html` for the root path `/`.
