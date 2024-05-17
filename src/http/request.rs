@@ -9,11 +9,27 @@ use std::str::Utf8Error;
 use super::{QueryString,QueryStringValue};
 //enum is a special type with finite set of values 
 
+//TODO Add Header to both request and response
 #[derive(Debug)]
 pub struct Request<'buf>{
     path : &'buf str,
     query_string: Option<QueryString<'buf>>,
     method: Method,
+}
+
+impl<'buf> Request<'buf>{
+    pub fn path(&self) -> &str{
+        &self.path
+    }
+
+    pub fn query_string(&self) -> Option<&QueryString>{
+        self.query_string.as_ref()
+    }
+
+    pub fn method(&self) -> &Method{
+        &self.method
+    }
+
 }
 
 impl<'buf> TryFrom<&'buf [u8]> for Request<'buf>{

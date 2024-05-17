@@ -1,8 +1,16 @@
 use std::net::TcpListener;
-use std::io::Read;
-use crate::http::Request;
+use std::io::{Read,Write};
+use crate::http::{Request,Response,StatusCode,ParseError};
 use std::convert::TryFrom;
 
+pub trait Handler {
+    fn handle_request (&mut self, request: &Request) -> Response;
+
+    fn handle_bad_request (&mut self, e: &ParseError) -> Response {
+        println!("Failed to parse request: {}", e);
+        Response::new(StatusCode::BadRequest, None)
+    } 
+}
 
 pub struct Server {
     addr: String,
@@ -11,12 +19,11 @@ pub struct Server {
 impl Server {
     pub fn new(addr: String) -> Self {
         Server {
-            // or addr: addr
             addr
         }
     }
     //methods take in self as the first argument
-    pub fn run(self) {
+    pub fn run(self, mut handler: impl Handler) {
         println!("Listening on {}", self.addr);
 
         let listener = TcpListener::bind(&self.addr).unwrap();
@@ -30,13 +37,16 @@ impl Server {
                         Ok(_) => {
                             println!("Recieved a request: {}", String::from_utf8_lossy(&buffer));
                             // try from is used for converstion of one type to another
-                            match Request::try_from(&buffer[..]) {
+                            let response = match Request::try_from(&buffer[..]) {
                                 Ok(request) => {
-                                    dbg!(request);
+                                    handler.handle_request(&request)
                                 },
                                 Err(e) => {
-                                    eprintln!("Failed to parse a request: {}", e);
+                                    handler.handle_bad_request(&e)
                                 }
+                            };
+                            if let Err(e) = response.send(&mut stream) {
+                                eprintln!("Failed to send response: {}", e);
                             }
                         }
                         Err(e) => {
