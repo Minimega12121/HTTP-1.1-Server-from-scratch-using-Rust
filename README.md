@@ -1,2 +1,10 @@
 # Description
-This is a http 1.1 server made from scratch using Rust with it's own parsing system to handle requests and deploy dynamic pagse on the server
+This is a HTTP/1.1 protocol based server made from scratch using Rust.
+It is a functional http server that can serve web pages with corresponding CSS and Javascript Files.
+### For example,
+Parsing through the following request<Br>
+<img src="https://github.com/Minimega12121/HTTP-1.1-Server-from-scratch-using-Rust
+/blob/main/ss/get_req.png">  <Br>
+The underlying Request logic parses the request with the help of following request struct and it's implementation for ParseError and generates the structure as follows:<Br>
+<img src="https://github.com/Minimega12121/HTTP-1.1-Server-from-scratch-using-Rust
+/blob/main/ss/parsedata.png">  <Br>
