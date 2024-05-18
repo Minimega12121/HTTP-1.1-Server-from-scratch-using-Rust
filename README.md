@@ -42,3 +42,12 @@ For GET requests:
 - Serves `hello.html` for the path `/hello`.
 - Serves other files if they exist in the public directory.
 - Returns `NotFound` if the file doesn't exist.
+
+### Things I learned from this project
+- In depth working of HTTP/1.1 protocol
+- How `Lifetimes`, `Traits` and many other Rust features are used to make a server `robust`
+
+### TO DO's:
+- Use a `multi-threaded` approach to serve requests to increase performance (For that I need to incorporate this <a href="https://github.com/Minimega12121/Multi-threaded-Rust-based-server"> project </a> into this)
+- Add more protocols like `HTTP/2`
+- Server something useful like a `dynamic CV website` on `Heruko` using this as backend
